@@ -2,9 +2,14 @@ name: "PR Merge on time v3"
 
 on:
   schedule:
-  - cron: '0,10 12 * * 0,3,5,6'
+  - cron: '0,10 12 * * 5'
 
   workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -56,7 +61,7 @@ jobs:
             
             const {repository:{pullRequests:{edges: list}}} = await github.graphql(query, variables)
             for( let {node} of list) { 
-             if(node.baseRefName === "main" || !node.labels.nodes.length) continue;
+             if(node.baseRefName === "main") continue;
              if (node.reviews.nodes.length && node.reviews.nodes[0].state === "CHANGES_REQUESTED") continue;
 
               try { 
