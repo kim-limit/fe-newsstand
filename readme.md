@@ -1,6 +1,6 @@
 
-https://github.com/kim-limit/fe-newsstand/assets/101790391/e1a57404-ff7c-45d5-91d0-956cdfcc2d4c
-#FE - NEWS STAND
+
+# FE - NEWS STAND
 
 뉴스 스탠드 미션
 
