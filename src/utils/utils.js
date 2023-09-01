@@ -1,3 +1,7 @@
+import { useGetAtom } from "../store/coil.js";
+import { VIEW_OPTION_TYPE, VIEW_TYPE } from "../constants/constants.js";
+import { viewOptionState, viewState } from "../store/store.js";
+
 const customFetch = async (url, callback, options) => {
   try {
     const response = await fetch(url, options);
@@ -29,7 +33,7 @@ const setDate = () => {
   return today.toLocaleDateString("ko-KR", options);
 };
 
-const ObjectToArrayRandom = (data) => {
+const pressObjectToArray = (data) => {
   const newArray = [];
 
   for (const key in data) {
@@ -43,7 +47,20 @@ const ObjectToArrayRandom = (data) => {
   return newArray;
 };
 
-const shuffleObject = (data) => {
+const newsObjectToArray = (data) => {
+  const newMap = {};
+
+  for (const key in data) {
+    data[key].forEach((inner) => {
+      if (inner.press in newMap) newMap[inner.press].push(inner);
+      else newMap[inner.press] = [inner];
+    });
+  }
+
+  return newMap;
+};
+
+const shuffleObjectRandom = (data) => {
   const newObject = {};
 
   for (const key in data) {
@@ -53,10 +70,25 @@ const shuffleObject = (data) => {
   return newObject;
 };
 
+const checkIsAllType = () => {
+  const currentViewOption = useGetAtom(viewOptionState);
+
+  return currentViewOption === VIEW_OPTION_TYPE.ALL;
+};
+
+const checkIsGridView = () => {
+  const currentView = useGetAtom(viewState);
+
+  return currentView === VIEW_TYPE.GRID;
+};
+
 export {
   customFetch,
   shuffleArrayRandom,
   setDate,
-  ObjectToArrayRandom,
-  shuffleObject,
+  pressObjectToArray,
+  shuffleObjectRandom,
+  newsObjectToArray,
+  checkIsAllType,
+  checkIsGridView,
 };

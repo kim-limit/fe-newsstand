@@ -6,7 +6,6 @@ import {
   _querySelector,
   _querySelectorAll,
 } from "../../utils/my-query-selector.js";
-import { customFetch } from "../../utils/utils.js";
 
 const $newsBar = _querySelectorAll(".container-news-bar_wrap");
 const $leftRollingBox = $newsBar[0];
@@ -14,7 +13,13 @@ const $leftRollingList = _querySelector("ul", $leftRollingBox);
 const $rightRollingBox = $newsBar[1];
 const $rightRollingList = _querySelector("ul", $rightRollingBox);
 
-const fillHeadlineContents = (headlineData) => {
+const renderRolling = async (headLineData) => {
+  renderItemsToHeadline(headLineData);
+
+  setRollingInterval();
+};
+
+const renderItemsToHeadline = (headlineData) => {
   headlineData.slice(0, 5).forEach(({ title, link }, idx) => {
     const headlineContent = createHeadlineContent(title, link, idx);
 
@@ -30,17 +35,16 @@ const fillHeadlineContents = (headlineData) => {
 
 const createHeadlineContent = (title, link, idx) => {
   const $li = document.createElement("li");
-  const $a = document.createElement("a");
 
   if (idx === 0) $li.className = "current";
   else if (idx === 1) $li.className = "next";
   else if (idx === 4) $li.className = "prev";
 
-  $a.className = "hover-underline available-medium14";
-  $a.href = link;
-  $a.innerHTML = title;
+  const $a = `
+    <a class="hover-underline available-medium14" href=${link}> ${title}</a>
+  `;
 
-  $li.appendChild($a);
+  $li.innerHTML = $a;
 
   return $li;
 };
@@ -106,12 +110,4 @@ const rollingElement = (elem) => {
   $next.classList.add("current");
 };
 
-const setRolling = async () => {
-  const headLineData = await customFetch("./mocks/headlines.json");
-
-  fillHeadlineContents(headLineData);
-
-  setRollingInterval();
-};
-
-export { setRolling };
+export { renderRolling };

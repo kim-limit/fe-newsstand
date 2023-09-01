@@ -1,9 +1,10 @@
 import { setHeaderLogo } from "./Logo.js";
-import { setRolling } from "./Rolling.js";
-import { setHeaderDate } from "./DateBox.js";
+import { renderRolling } from "./Rolling.js";
+import { renderHeaderDate } from "./DateBox.js";
 
-export const setHeader = () => {
+export const setHeader = (headLineData) => {
   setHeaderLogo();
-  setHeaderDate();
-  setRolling();
+
+  renderHeaderDate();
+  renderRolling(headLineData);
 };
